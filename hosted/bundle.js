@@ -63,10 +63,12 @@ var renderDomoList = function renderDomoList() {
     }
 
     var domoNodes = this.state.data.map(function (domo) {
+
+        console.dir(domo.image);
         return React.createElement(
             "div",
             { key: domo._id, className: "domo" },
-            React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
+            React.createElement("img", { src: domo.image, alt: "domo face", className: "domoFace" }),
             React.createElement(
                 "h3",
                 { className: "domoName" },

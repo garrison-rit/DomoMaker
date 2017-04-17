@@ -8,6 +8,7 @@ const makerPage = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
+      console.dir(docs);
     return res.render('app', { domos: docs, csrfToken: req.csrfToken() });
   });
 };
@@ -25,6 +26,8 @@ const makeDomo = (req, res) => {
 
   const newDomo = new Domo.DomoModel(domoData);
 
+    console.dir(newDomo);
+    
   const domoPromise = newDomo.save();
 
   domoPromise.then(() => res.json({ redirect: '/maker' }));
