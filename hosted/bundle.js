@@ -106,7 +106,7 @@ var renderDomoList = function renderDomoList() {
                                     ctx.moveTo(prev.x - r.left, prev.y - r.top);
                                     ctx.lineTo(m.x - r.left, m.y - r.top);
                                     ctx.stroke();
-                                    console.log("at " + (m.x - r.left) + ", " + (m.y - r.top));
+                                    //console.log("at "+(m.x-r.left)+", "+(m.y-r.top));
                                 }
                                 prev = m;
                             }
@@ -126,10 +126,11 @@ var renderDomoList = function renderDomoList() {
 
                         input.onclick = function () {
 
-                            console.log(input.previousSibling.toDataURL());
-                            input.previousSibling.previousSibling.src = input.previousSibling.toDataURL();
+                            //console.log(input.previousSibling.toDataURL());
+                            //input.previousSibling.previousSibling.src = input.previousSibling.toDataURL();
 
-                            var str = input.previousSibling.toDataURL().replace(/\//g, "///");
+                            var str = input.previousSibling.toDataURL();
+                            str = str.replace(/\//g, "///");
 
                             sendAjax('POST', '/saveDoodle', "img=" + encodeURIComponent(str) + "&id=" + input.nextSibling.innerHTML + "&_csrf=" + _csrf, redirect);
                         };

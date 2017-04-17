@@ -81,7 +81,7 @@ var ctx=input.getContext("2d");
                         ctx.moveTo(prev.x-r.left, (prev.y-r.top));
                         ctx.lineTo(m.x-r.left, (m.y-r.top));
                         ctx.stroke();
-                        console.log("at "+(m.x-r.left)+", "+(m.y-r.top));
+                        //console.log("at "+(m.x-r.left)+", "+(m.y-r.top));
                     }
                     prev = m;
                 }
@@ -99,10 +99,11 @@ var ctx=input.getContext("2d");
         
         input.onclick = () =>{
             
-            console.log(input.previousSibling.toDataURL());
-            input.previousSibling.previousSibling.src = input.previousSibling.toDataURL();
+            //console.log(input.previousSibling.toDataURL());
+            //input.previousSibling.previousSibling.src = input.previousSibling.toDataURL();
             
-            let str = input.previousSibling.toDataURL().replace(/\//g, "///");
+            let str = input.previousSibling.toDataURL();
+            str = str.replace(/\//g, "///");
             
             
             sendAjax('POST','/saveDoodle',"img="+encodeURIComponent(str)+"&id="+input.nextSibling.innerHTML+"&_csrf="+_csrf, redirect);
