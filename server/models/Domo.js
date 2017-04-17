@@ -9,7 +9,11 @@ let DomoModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-const domoBuffer = "data:image/png;base64,"+require('fs').readFileSync(`hosted/img/domoface.jpeg`).toString("base64");
+const fs = require('fs');
+
+const domoBuffer = `data:image/png;base64,${
+fs.readFileSync('hosted/img/domoface.jpeg').toString('base64')
+}`;
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -24,10 +28,10 @@ const DomoSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
-  image:{
-      type: String,
-      default: domoBuffer,
-      required: true
+  image: {
+    type: String,
+    default: domoBuffer,
+    required: true,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -37,7 +41,7 @@ const DomoSchema = new mongoose.Schema({
   createdDate: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 DomoSchema.statics.toAPI = (doc) => ({

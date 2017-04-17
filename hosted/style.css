@@ -212,7 +212,9 @@ nav:nth-child(1) {
     height: 60px;
     transition: .3s;
 }
-
+.hidden{
+    visibility: hidden;
+}
 .canvasSize{
     width: 300px;
     height: 300px;

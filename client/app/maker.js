@@ -40,6 +40,8 @@ const renderDomo = function() {
     );
 };
 
+let prev;
+
 const renderDomoList = function() {
     if(this.state.data.length === 0) {
         return(
@@ -51,7 +53,6 @@ const renderDomoList = function() {
 
     const domoNodes = this.state.data.map(function(domo){
         
-        //console.dir(domo.image);
         return (
             <div key={domo._id} className="domo">
             <img src={domo.image} alt="domo face" className="domoFace"/>
@@ -59,12 +60,56 @@ const renderDomoList = function() {
             <h3 className="domoAge"> Age: {domo.age}</h3>
             <img src={domo.image} className="canvasSize" alt="domo face"/>
             <canvas ref={(input)=>{
-            console.dir(input);
+            if(input===null)
+                return;
 var ctx=input.getContext("2d");
-ctx.rect(0,0,300,300);
-ctx.fill();
-                                  }} className="domoCanvas canvasSize">Image manipulation unsupported in your browser</canvas>
-            <button className="domoUpdate" >Update Face</button>
+            ctx.drawImage(input.previousSibling, 0, 0, 300, 300);
+            
+            var shouldDraw = false;
+            
+            input.onmousedown = (e) =>{
+                prev = {x: e.clientX, y: e.clientY};
+                shouldDraw = true;
+            };
+            
+            input.onmousemove = (e) => {
+                
+                if(shouldDraw){
+                    var r = input.getBoundingClientRect();
+                    let m = {x: e.clientX, y: e.clientY};
+                    if(m.y>r.top && m.y<r.bottom && m.x>r.left && m.x<r.right){
+                        ctx.moveTo(prev.x-r.left, (prev.y-r.top));
+                        ctx.lineTo(m.x-r.left, (m.y-r.top));
+                        ctx.stroke();
+                        console.log("at "+(m.x-r.left)+", "+(m.y-r.top));
+                    }
+                    prev = m;
+                }
+            };
+            
+            input.onmouseup = (e) => {
+                
+                shouldDraw = false;
+            };
+                                  }} className="domoCanvas canvasSize" width="300" height="300">Image manipulation unsupported in your browser</canvas>
+            <button className="domoUpdate" ref={(input)=>{
+            if(input===null)
+                return;
+        
+        
+        input.onclick = () =>{
+            
+            console.log(input.previousSibling.toDataURL());
+            input.previousSibling.previousSibling.src = input.previousSibling.toDataURL();
+            
+            let str = input.previousSibling.toDataURL().replace(/\//g, "///");
+            
+            
+            sendAjax('POST','/saveDoodle',"img="+encodeURIComponent(str)+"&id="+input.nextSibling.innerHTML+"&_csrf="+_csrf, redirect);
+            
+        };
+    }}>Save Doodle</button>
+            <div className="hidden">{domo._id}</div>
             </div>
         );
         
@@ -81,9 +126,9 @@ ctx.fill();
         </div>
     );
 }
-
+let _csrf;
 const setup = function(csrf) {
-    
+    _csrf = csrf;
     DomoFormClass = React.createClass({
         handleSubmit: handleDomo,
         render: renderDomo,
@@ -103,7 +148,10 @@ const setup = function(csrf) {
             //var $this = $(ReactDOM.findDOMNode(this));
             //// set el height and width etc.
         },
-        render: renderDomoList
+        render: renderDomoList,
+        myClick: function(){
+            alert("j");
+        }
     });
     
     domoForm = ReactDOM.render(
