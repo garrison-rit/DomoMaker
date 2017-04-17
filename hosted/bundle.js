@@ -37,7 +37,7 @@ var renderDomo = function renderDomo() {
             { htmlFor: "name" },
             "Name: "
         ),
-        React.createElement("input", { id: "donoName", type: "text", name: "name", placeholder: "Domo Name" }),
+        React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Domo Name" }),
         React.createElement(
             "label",
             { htmlFor: "age" },
@@ -64,7 +64,7 @@ var renderDomoList = function renderDomoList() {
 
     var domoNodes = this.state.data.map(function (domo) {
 
-        console.dir(domo.image);
+        //console.dir(domo.image);
         return React.createElement(
             "div",
             { key: domo._id, className: "domo" },
@@ -80,6 +80,22 @@ var renderDomoList = function renderDomoList() {
                 { className: "domoAge" },
                 " Age: ",
                 domo.age
+            ),
+            React.createElement("img", { src: domo.image, className: "canvasSize", alt: "domo face" }),
+            React.createElement(
+                "canvas",
+                { ref: function ref(input) {
+                        console.dir(input);
+                        var ctx = input.getContext("2d");
+                        ctx.rect(0, 0, 300, 300);
+                        ctx.fill();
+                    }, className: "domoCanvas canvasSize" },
+                "Image manipulation unsupported in your browser"
+            ),
+            React.createElement(
+                "button",
+                { className: "domoUpdate" },
+                "Update Face"
             )
         );
 
@@ -119,6 +135,8 @@ var setup = function setup(csrf) {
         },
         componentDidMount: function componentDidMount() {
             this.loadDomosFromServer();
+            //var $this = $(ReactDOM.findDOMNode(this));
+            //// set el height and width etc.
         },
         render: renderDomoList
     });

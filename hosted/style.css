@@ -209,6 +209,28 @@ nav:nth-child(1) {
     padding: 10px;
     min-height:60px;
     overflow: hidden;
+    height: 60px;
+    transition: .3s;
+}
+
+.canvasSize{
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    display:block;
+}
+
+.domoUpdate{
+    margin: auto;
+    display:block;
+    margin-top: 3px;
+    position: relative;
+    top: -300px;
+}
+
+.domoCanvas{
+    position: relative;
+    top: -300px;
 }
 
 .domo:hover {
@@ -216,6 +238,8 @@ nav:nth-child(1) {
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
     background-color: #66bfff;
+    height: 410px;
+    transition: .3s;
 }
 
 img.domoFace {

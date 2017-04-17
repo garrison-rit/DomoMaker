@@ -31,7 +31,7 @@ const renderDomo = function() {
         >
         
         <label htmlFor="name">Name: </label>
-        <input id="donoName" type="text" name="name" placeholder="Domo Name"/>
+        <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
         <label htmlFor="age">Age: </label>
         <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
         <input type="hidden" name="_csrf" value={this.props.csrf}/>
@@ -51,12 +51,20 @@ const renderDomoList = function() {
 
     const domoNodes = this.state.data.map(function(domo){
         
-        console.dir(domo.image);
+        //console.dir(domo.image);
         return (
             <div key={domo._id} className="domo">
             <img src={domo.image} alt="domo face" className="domoFace"/>
             <h3 className="domoName"> Name: {domo.name}</h3>
             <h3 className="domoAge"> Age: {domo.age}</h3>
+            <img src={domo.image} className="canvasSize" alt="domo face"/>
+            <canvas ref={(input)=>{
+            console.dir(input);
+var ctx=input.getContext("2d");
+ctx.rect(0,0,300,300);
+ctx.fill();
+                                  }} className="domoCanvas canvasSize">Image manipulation unsupported in your browser</canvas>
+            <button className="domoUpdate" >Update Face</button>
             </div>
         );
         
@@ -92,6 +100,8 @@ const setup = function(csrf) {
         },
         componentDidMount: function() {
             this.loadDomosFromServer();
+            //var $this = $(ReactDOM.findDOMNode(this));
+            //// set el height and width etc.
         },
         render: renderDomoList
     });
